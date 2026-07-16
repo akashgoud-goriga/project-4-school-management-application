@@ -33,6 +33,9 @@ class persons(ABC):
             return True
         else:
             return False
+    
+    def attendence():
+        pass
 
 
 class students(persons):
@@ -56,7 +59,8 @@ class students(persons):
                 "roll_no": roll_no,
                 "section":section,
                 "email":email,
-                "grades":{}
+                "grades":{},
+                "attendance":{}
             })
                            
             if not persons.email_varification(email):
@@ -80,6 +84,7 @@ class students(persons):
                     print(f"roll number :{i["roll_no"]} ")
                     print(f"email:{i["email"]} ")
                     print(f"grades:{i["grades"]} ")
+                    print(f" attendance : {i["attendance"]}")
                 else:
                     print(f"no student named {name} exists")
         except Exception as err:
@@ -87,7 +92,7 @@ class students(persons):
     def add_grades(self):
         try:
             name = input("enter the name of the student:- ")
-            roll_no = input("enter the roll no of the student:- ")
+            roll_no = int(input("enter the roll no of the student:- "))
             subject = input("enter the subject :- ")
             marks = int(input("enter the marks :- "))
 
@@ -100,7 +105,36 @@ class students(persons):
                 else:
                     print("student not found")
         except Exception as err:
-            print(f"error occerred as {err}")            
+            print(f"error occerred as {err}") 
+
+    def attendance(self):
+        try:
+            name = input("enter the student name :- ")
+            roll_no = int(input("enter the roll number of the student:- "))
+            for i in data['students']:
+                month = input("enter the month :- ")
+                att = int(input("enter the attendance :- "))
+                if i["name"] == name and i["roll_no"] == roll_no:
+                    i["attendance"][month] = att
+                    print("attendance added successfully")
+                else:
+                    print("student not found")
+
+        except Exception as err:
+            print(f"error occerred as {err}")
+        save()
+    
+    def show_attendance(self):
+        try:
+            name =input("enter the name of the student :- ")
+            roll_no = int(input("enter the roll no of the student:- "))
+            for i in data['students']:
+                if i["name"] == name and i["roll_no"] == roll_no:
+                    print(f"attendance : {i["attendance"]}")
+        except Exception as err:
+            print(f" error occerred as {err}")
+
+                   
 
 class teachers(persons):
     def get_rolls(self):
@@ -121,6 +155,7 @@ class teachers(persons):
                 "subject" : subject,
                 "employee id": empy_id,
                 "email":email,
+                "attendance":{}
                 
             })
                 
@@ -142,16 +177,46 @@ class teachers(persons):
         try:
             name = input("enter the name of the teacher:- ")
             empy_id= int(input("enter the employee id of the teacher"))
-            for i in data['teacher']:
-                if i["name"] == name and i["empy_id"] == empy_id:
+            for i in data['teachers']:
+                if i["name"] == name and i["employee id"] == empy_id:
                     print(f"Name :{i["name"]} ")
                     print(f"subject :{i["subject"]} ")
-                    print(f"empy id:{i["empy_id"]} ")
+                    print(f"empy id:{i["employee id"]} ")
                     print(f"email:{i["email"]} ")
+                    print(f"attendance : {i["attendance"]}")
                 else:
                     print(f"no teacher named {name} exists")
         except Exception as err:
-            print(f"error occerred as {err}")    
+            print(f"error occerred as {err}") 
+
+    def attendance(self):
+        try:
+            name = input("enter the teacher's name :- ")
+            empy_id = int(input("enter the empy id of the teacher:- "))
+            for i in data['teachers']:
+                att = int(input("enter the attendance :- "))
+                month = input("enter the month:- ")
+                if i["name"] == name and i["employee id"] == empy_id:
+                    i["attendance"][month] = att
+                    print("attendence added successfully ")
+                else:
+                    print("teacher not found")
+
+        except Exception as err:
+            print(f"error occerred as {err}")
+        save()
+           
+    def show_attendance(self):
+        try:
+            name =input("enter the name of the teacher :- ")
+            empy_id = int(input("enter the empy id of the teacher:- "))
+            for i in data['teachers']:
+                if i["name"] == name and i["employee id"] == empy_id:
+                    print(f"attendence : {i["attendance"]}")
+                else:
+                    print("teacher not found")
+        except Exception as err:
+            print(f" error occerred as {err}")   
 
 
 print("enter '1' to register a student ")
@@ -159,6 +224,10 @@ print("enter '2' to register a teacher")
 print("enter '3' to show the details of the student")
 print("enter '4' to show  the teacher details")
 print("enter '5' to add the grades of the students" )
+print(" enter '6' to add attendence of the student")
+print("enter '7' to add the attendence of the teacher")
+print("enter '8' to show the attendence of the teacher")
+print("enter '9' to show the attendence of the student")
 
 
 
@@ -176,6 +245,14 @@ elif choice == 4:
     teach.show_details()
 elif choice == 5:
     stu.add_grades()
+elif choice == 6:
+    stu.attendance()
+elif choice == 7:
+    teach.attendance()
+elif choice == 8:
+    teach.show_attendance()
+elif choice == 9:
+    stu.show_attendance()
 else:
     print("enter only the give options")
 
